@@ -2,10 +2,10 @@
 
 <html lang="en-US">
 	<head>
-		<meta charset="UTF-8" />
-		<meta name="author" content="width=device-width" />
+		<meta charset="UTF-8" >
+		<meta name="author" content="width=device-width" >
 
-		<link rel="icon" href="/Basics/HTML/html-5.png" type="image/x-icon" />
+		<link rel="icon" href="/Basics/HTML/html-5.png" type="image/x-icon" >
 
 		<style>
 			html {
@@ -25,6 +25,14 @@
 			a:active {
 				color: aquamarine;
 			}
+
+            table,tr,th,td,caption{
+				border: 1px solid whitesmoke;
+				font-family: 'Courier New', Courier, monospace;
+				border-collapse: collapse;
+				padding: .5rem;
+			}
+
 		</style>
 
 		<title>hello world</title>
@@ -129,18 +137,185 @@
 
         <aside>
 			<details>
-                <summary>Summary of the <mark>given passage</mark></summary>
-				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab autem aperiam iste voluptate rerum vero, <time datetime="8:00">8pm</time> reiciendis porro aliquam omnis neque, illum <time datetime="PT3H"> for 3 hrs</time> dolore quo hic fugit libero odio?</p>
+            <summary>Summary of the <mark>given passage</mark></summary>
+				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab autem aperiam iste voluptate rerum vero, <time datetime="8:00">8 pm</time> reiciendis porro aliquam omnis neque, illum <time datetime="PT3H"> for 3 hrs</time> dolore quo hic fugit libero odio?</p>
 			</details>
 		</aside>
 
-
 		
-
-		<h1>Table::</h1>
 		<section>
+		 <h1>Table::</h1>
+		 <table>
+			<caption> My daily routine</caption>
+			<thead>
+			<tr>
+				<th>&nbsp;</th>
+				<th scope="col">time</th>
+				<th scope="col">Activity</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<th scope="row">Period 1</th>
+				<td><time >8 am</time> to <time>9 am</time></td>
+				<td>Study</td>
+			</tr>
+            
+			<tr>
+				<th scope="row">period 2</th>
+				<td><time>9 am</time> to <time >10 am</time></td>
+				<td>breakfast</td>
+			</tr>
+			<tr>
+				<th scope="row">period 3</th>
+				<td><time >10 am</time> to <time >11 am</time></td>
+				<td>go to gym</td>
+			</tr>
 
+			<tr>
+				<th scope="row">evening</th>
+				<td rowspan="2">All other times</td>
+				<td>free time</td>
+			</tr>
+			<tr>
+				<th scope="row">night</th>
+				<td>sleep time</td>
+			</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="2">Total duration :</td>
+					<td>3 hours</td>
+				</tr>
+			</tfoot>
+		 </table>
 		</section>
+
+		<article id="contact">
+			<h1>forms and input::</h1>
+
+			<form action="https://httpbin.org/get"     method="get">
+				<fieldset>
+					<legend>Personal INFO</legend>
+               
+				<p>
+               <label for="FirstName">first name  :</label>
+			      <input type="text" name="firstName" id="FirstName" placeholder="alex" autocomplete="on" required autofocus>
+               </p>
+
+               <p>
+			   <label for="LastName">Last name :</label>
+			   <input type="text" name="LastName" id="LastName" placeholder="neuman" autocomplete="on" required>
+               </p>
+
+			   <p>
+			   <label for="Password">Password :</label>
+			   <input type="Password" name="Password" id="Password" placeholder="*****" autocomplete="on" required>
+               </p>
+
+			   <p>
+			   <label for="phone">phone :</label>
+			   <input type="tel" name="phone" id="phone" placeholder="01234.." autocomplete="on" required
+			   pattern="[0-9]{3}[0-9]{3}[0-9]{4}">
+               </p>
+
+			   <p>
+			   <label for="decade">decade :</label>
+			   <input type="number" name="decade" id="decade" autocomplete="on" required
+			   step="10" min="1960" max="2020" value="1990">
+            </p>
+
+			   <p>
+				  <label for="coffee">Fav Coffee :</label>
+					<select name="Coffee" id="coffees" size="5" multiple>
+
+						<optgroup label="Coffee">
+
+						<option value="regular coffee">Regular coffee</option>
+						<option value="Iced coffee">iced coffee</option>
+						</optgroup>
+
+						<optgroup label="Espresso drinks">
+
+						<option value="Cappuccino" selected>Cappuccino</option>
+						<option value="Latte">Latte</option>
+						<option value="americano">americano</option>
+						<option value="espresso" selected>espresso</option>
+						<option value="cortado">cortado</option>
+						</optgroup>
+
+					</select>
+			  </p> 
+
+			  <p>
+				<label for="coffee">Fave coffee</label>
+				<input type="text" name="coffee" id="coffee" list="coffee-list">
+				<datalist id="coffee-list">
+               <option value="coffee">
+					<option value="latte">
+					<option value="Cappuccino">
+					<option value="americano">	
+						
+				</datalist>
+			  </p>
+
+			   
+            </fieldset>
+
+				<br>
+
+				<fieldset>
+					<legend>What is your fave food?</legend>
+					<p>
+						<input type="radio" name="food" id="tacos" value="tacos">
+						<label for="tacos">Tacos</label>
+					</p>
+
+					<p>
+						<input type="radio" name="food" id="Pizza" value="Pizza">
+						<label for="Pizza">Pizza</label>
+					</p>
+
+					<p>
+						<input type="radio" name="food" id="Momos" value="Momos">
+						<label for="Momos">Momos</label>
+					</p>
+				</fieldset>
+            <br>
+				<fieldset>
+					<legend>Do you like pets?</legend>
+					<p>
+						<input type="checkbox" name="pets" id="dog" value="dog">
+						<label for="dog">Dog</label>
+					</p>
+
+					<p>
+						<input type="checkbox" name="pets" id="cat" value="cat">
+						<label for="cat">cat</label>
+					</p>
+
+					<p>
+						<input type="checkbox" name="pets" id="fish" value="fish">
+						<label for="fish">fish</label>
+					</p>
+
+				</fieldset>
+				<br>
+				<fieldset>
+					<legend>Send me note</legend>
+					<label for="message">Your message</label>
+					<br>
+					<textarea name="message" id="message" cols="30" rows="30" placeholder="Type your message here"></textarea>
+				</fieldset>
+
+				<br>
+				<button type="submit">submit</button>
+				<button type="submit" formaction="https://httpbin.org/post"   formmethod="post">Post</button>
+				<button type="submit">reset</button>
+
+			</form>
+			
+		</article>
 
 
 
