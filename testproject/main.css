@@ -3,7 +3,16 @@ body{
    width: 40%;
    margin:auto;
    border: 1px solid black;
-   box-shadow: 1px 1px 1px 1px #888888;
+   box-shadow: 2px 2px 2px 2px #888888;
    padding: 10px;
 }
 
+table{
+   border: 1px solid #383838;
+   border-collapse: collapse;
+}
+
+th,td{
+   padding: 8px;
+   border: 1px solid #2c2c2c;
+}
