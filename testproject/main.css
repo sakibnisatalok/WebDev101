@@ -1,0 +1,9 @@
+
+body{
+   width: 40%;
+   margin:auto;
+   border: 1px solid black;
+   box-shadow: 1px 1px 1px 1px #888888;
+   padding: 10px;
+}
+

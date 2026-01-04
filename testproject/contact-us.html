@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Contact Us -LTS</title>
+   <link rel="stylesheet" href="main.css">
+   <link rel="icon" href="favicon.ico">
+</head>
+
+<body>
+   <header>
+      <h1>Contact Us</h1>
+      <nav>
+         <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#about-lts">About LTS</a></li>
+            <li><a href="index.html#our-menu">Our Menu</a></li>
+            <li><a href="store-hours.html">Store Hours</a></li>
+         </ul>
+      </nav>
+      <figure>
+         <img src="tacos_close_up_400x260.png" alt=" close-up taco" width="400px" height="260px" loading="lazy">
+         <figcaption>Little Taco Shop Tacos</figcaption>
+      </figure>
+   </header>
+   <hr>
+
+   <main>
+      <section>
+         <h2>Our Contact Form</h2>
+         <form action="https://httpbin.org/post" method="post">
+            <fieldset>
+               <legend>Send Us a message</legend>
+
+               <p>
+                  <label for="fullname">Name : </label>
+                  <input type="text" id="fullname" name="fullname" placeholder="jane jacob" required autofocus
+                     autocomplete="">
+               </p>
+               <p>
+                  <label for="email">Email : </label>
+                  <input type="email" name="email" id="email" placeholder="random@email.com" required autocomplete="">
+               </p>
+               <p>
+                  <label for="message">Your Message : </label><br>
+                  <textarea name="message" id="message" placeholder="type your message here" cols="30" rows="8"
+                     required></textarea>
+               </p>
+
+            </fieldset>
+            <button type="submit">Submit</button>
+            <button type="reset">Reset</button>
+         </form>
+      </section>
+
+      <section>
+         <h2>Our Location</h2>
+         <address>Alfardan Tower, Diplomatic Area <br> West Bay,Doha,Qatar</address>
+         <p><em>Phone :</em> <a href="tel:555-555-55555">555-555-55555</a></p>
+      </section>
+   </main>
+
+   <hr>
+   <footer>
+      <a href="#">back to top</a>
+      <p>Copyright &copy; The Little Taco Shop</p>
+   </footer>
+
+</body>
+
+</html>
