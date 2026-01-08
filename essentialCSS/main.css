@@ -1,1 +1,20 @@
 
+body{
+   line-height: 40px;
+   font-family: 'Courier New', Courier, monospace;
+   font-size: 20px;
+   background-color: cornsilk;
+   color: darkcyan;
+}
+
+h2{
+   color: brown;
+}
+
+p{
+   font-size: 5px;
+}
+
+
+
+
