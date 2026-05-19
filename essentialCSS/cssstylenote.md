@@ -3,7 +3,7 @@
 
 * padding-top -> sets the top padding of an element
 * padding-right -> sets the right padding of an element
-* padding-bottom -> sets the bottom padding of an element
+* padding-bottom → sets the bottom padding of an element
 * padding-left -> sets the left padding of an element
 
 shorthand for padding : [padding: top right&left bottom]
@@ -29,7 +29,21 @@ shorthand for margin : [margin: top right&left bottom]
 * border-width -> sets the border width of an element
 * border-style -> sets the border style of an element
 * border-color -> sets the border color of an element
+* border-radius -> sets roundness of the corners.
 
 shorthand for border : [border: width style color]
 
 We can also specify the this shorthand for each side using **[border-side-*]** css property.
+
+
+### Background ::
+
+* background-color -> sets the color of the **element**.
+* background-image -> sets the image of the **element**.
+* background-position -> sets the position of the image through cartesian coord. Default is padding box.
+* background-size -> controls swize/scaling of background image.
+* background-repeat -> controls the repeat direction.
+* background-attachment -> decides whether image scolls or stays fixed. 
+* background-origin -> decides whether it should be padding box, content box or border box as well as Where background positioning starts.
+* background-clip -> decides visible painting area.
+
