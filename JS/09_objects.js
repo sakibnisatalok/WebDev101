@@ -9,6 +9,7 @@ object.create  using constructor
 //object types : 1.literal 2.singleton ****
 
 
+
 const myObj={} //empty literal object
 console.log(typeof myObj)
 
@@ -181,7 +182,6 @@ console.log(time)
 //for json, keys are all in string format.**
 
 //JSON-> javascript object notation is a data format used when dealing with APIs.
-
 
 //APIs can come in two formats : raw object and array of objects.
 
