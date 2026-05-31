@@ -19,11 +19,11 @@ addnum2(3 ,10)
 
 
 function loggedinUserText(usrname){
-    return` ${usrname} is logged in.`
+    return `${usrname} is logged in.`
 }
 
 console.log(loggedinUserText('Barood Khan'))
-console.log(loggedinUserText()) //if argument is not passed , usrname is undeifned.****
+console.log(loggedinUserText()) //if argument is not passed , usrname is undefined.****
 
 function loggedinUserText1(usrname="Boom Khan"){
     return` ${usrname} is logged in.`
@@ -83,7 +83,7 @@ function printarr1(anyarray){
 console.log(printarr1(arrPrices))
 
 function printarr11(anyarray){
-    return anyarray //pass by reference
+    return anyarray[3] //pass by reference
 }
 
 console.log(printarr11([11,3,4,44,0,5,9]))
@@ -123,6 +123,8 @@ function addone(num){
 }
 
 
+
+
 //console.log(addvar(60)) throws a reference error. *****
 //hoisting concept ,final tree 
 const addvar= function addtwo(num){
@@ -130,6 +132,8 @@ const addvar= function addtwo(num){
 }
 
 console.log(addvar(60)) //works fine
+
+
 
 
 const user ={
@@ -174,11 +178,15 @@ y()
 
 
 
+
+
 // const add2= (num1 ,num2) => {
 //     return num1 + num2
 // }
 
-// implicit return ::
+// implicit return :: Implicit return is a shorthand syntax in arrow functions where you omit the return keyword and curly braces {}. The function automatically returns the result of the expression.
+
+const sss= () => {}
 
 //const add2= (num1 ,num2) =>  num1 + num2
 const add2= (num1 ,num2) =>  (num1 + num2)
@@ -189,11 +197,17 @@ const ob = () => ({ name : "sakib nisat"}) // for returning object.
 
 console.log(ob());
 
-//ASI issue
 
+
+
+
+
+
+
+//ASI issue : Automatic Semicolon Insertion
 // Immediately Invoked Function Expression(IIFE) ::
 
-//first pair is for function expression and second pair is for funciton execution signal.
+//first pair is for function expression and second pair is for function execution signal.
 
 (function () {
     console.log("Instant IIFE code")
@@ -207,20 +221,24 @@ console.log(ob());
     console.log(`username is ${name}`)
 })('Barood Khan');
 
-// always add an semicolon after writing IFFE function. ****
+// always add semicolons before and after writing IFFE function. ****
+// variable of any types(var,let,const) are scoped only inside the first parentheses.
+
+
+
 
 
 // call stack ::::::
 
 /*
 
-
 When js code is fed to the interpreter it creates a execution context and executes in three phases : Global execution context , Memory execution phase and Execution phase. In the process it constructs sandboxes to deal with functions. This is how generally js handles its code.
 
 misc : function and eval execution context. *****
 
-
 */
+
+
 
 
 
