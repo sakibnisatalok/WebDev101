@@ -14,6 +14,8 @@ console.log("NULL value : ")
 console.log(Number(null))
 console.log("undefined value : ")
 console.log(Number(undefined))
+console.log("NAN value : ")
+console.log(Number(NaN))
 
 // string to num conversion ::
 
@@ -57,7 +59,11 @@ console.log(null>=0)
 //null>0 and null>=0 are same case.
 
 console.log(Number.MAX_SAFE_INTEGER)
+console.log(typeof null)
 
+//null: A well-known quirk in JavaScript is that typeof null returns "object".
+//  This is a legacy bug from the very first days of JavaScript, 
+// but null is actually a primitive value.
 
 
 

@@ -1,4 +1,7 @@
-//  Primitive
+
+
+//  Primitive : Primitives represent single, simple values.
+//  Because they are immutable, any operation that seems to "change" a primitive actually creates a brand-new value in memory.
 
 //  7 types : String, Number, Boolearn, null, undefined, Symbol, BigInt -> all these go to stack
 //non-primitives : array ,object and fuction -> all of these go to heap and send reference to the indentifier.
@@ -31,7 +34,7 @@ let myObj = {
 }
 
 const myFunction = function(){
-    console.log("Hello world");
+    console.log("Hello bots");
 }
 
 myFunction()

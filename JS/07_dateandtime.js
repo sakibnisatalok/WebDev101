@@ -27,6 +27,19 @@ console.log(currentdate.getDay())//week day
 let weekday = currentdate.toLocaleString('default',{
   weekday : "long"
 }) // ****
+/*
+
+'default' → uses the user’s local language/locale.
+{ weekday: "long" } → tells it to only return the full weekday name.
+
+If today is Sunday:
+weekday // "Sunday"
+
+If locale is French:
+weekday // "dimanche"
+
+
+*/
 
 console.log(typeof weekday)
 console.log(weekday)

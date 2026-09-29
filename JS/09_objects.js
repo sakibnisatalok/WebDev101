@@ -13,11 +13,18 @@ object.create  using constructor
 const myObj={} //empty literal object
 console.log(typeof myObj)
 
-const myobj= new Object() //singleton object
+const myobj= new Object() //singleton object. a constructor is called .
 console.log(typeof myobj)
 
 
+/*
 
+Both objects:
+- Are empty {}
+- Inherit directly from Object.prototype
+- Have the typeof "object"
+
+*/
 
 const symbolKey= Symbol("example")
 
@@ -34,7 +41,7 @@ const jsUser={
 
 console.log(jsUser.name)
 console.log(jsUser["name"]) //internally name key is stored as "name" string.
-console.log(jsUser["major name"]) //cant be accessed through dot operator as i'ts a string. console.log(jsUser.major name) returns ERROR.
+console.log(jsUser["major name"]) //cant be accessed through dot operator as it's a string. console.log(jsUser.major name) returns ERROR.
 
 console.log(typeof jsUser[symbolKey])
 console.log(jsUser[symbolKey])
@@ -57,14 +64,17 @@ jsUser.greeting= function(){
     console.log("hello user")
 }
 
-console.log(jsUser.greeting) // returns the reference of that object function.**
+console.log(jsUser.greeting) // returns the reference of that object function as it's expecting sth to print.**
 
-console.log(jsUser.greeting()) //If you want only "hello user" printed, call jsUser.greeting() by itself (without wrapping it in another console.log). If you want console.log to show something else, have the function return a value (e.g., return "hello user") and then console.log(jsUser.greeting()) will print that returned value only.****
+console.log(jsUser.greeting()) //If you want only "hello user" printed, 
+// call jsUser.greeting() by itself (without wrapping it in another console.log). 
+// If you want console.log to show something else,
+// have the function return a value (e.g., return "hello user") and then console.log(jsUser.greeting()) will print that returned value only.****
 
 
 
 jsUser.greetingUser= function(){
-    console.log(`hello ${this.name}`)//this references the object itself.Using that, we can access the object elements.
+    console.log(`hello ${this.name}`)// 'this' references the object itself.Using that, we can access the object elements.
 }
 
 console.log(jsUser.greetingUser())//inner funciton prints the value and outer function prints undefined*****
@@ -83,6 +93,7 @@ singletonObj.id="123abc"
 
 console.log(singletonObj)
 
+console.log(Object.getOwnPropertySymbols(jsUser)) //reading sybol keys of an object.
 
 
 const regularUser={
@@ -102,6 +113,9 @@ console.log(regularUser)
 console.log(regularUser.name)
 console.log(regularUser.name.fullname)
 console.log(regularUser.name.fullname.firstname)
+console.log(regularUser.name.fullname.lastname)
+console.log(regularUser?.info?.gender) // it's called optional chaining.
+// it throws 'undefined' instead of error for '?.'.
 
 
 
@@ -127,11 +141,127 @@ console.log(objMerger)
 console.log(typeof objMerger)
 
 
-const spreadMerge= {...obj1,...obj2,...obj3}
+const spreadMerge = { ...obj1, ...obj2, ...obj3 }
+// If objects share the same key, the one on the right overrides the ones before it.
+
+/*
+
+const original = {
+  name: "Sakib",         // top-level primitive
+  address: {             // nested object!
+    city: "Dhaka"
+  }
+};
+
+ Shallow copy using spread:
+const copy = { ...original };
+
+ 1. Changing top-level primitive -> Safe! Only changes `copy`
+copy.name = "Alok";
+console.log(original.name);  "Sakib" (original did NOT change)
+
+ 2. Changing nested object -> Mutates BOTH!
+copy.address.city = "Chittagong";
+console.log(original.address.city); "Chittagong" (original CHANGED too!)
+
+Both original.address and copy.address point to the exact same object in memory.
+
+const deepCopy = structuredClone(original); this perfectly copies
+the object(true deep copy w/o shared references.)*****
+
+
+*/
+
 console.log(spreadMerge)
 console.log(typeof spreadMerge)
 
 
+/*
+
+1. Shallow Copy ****
+
+A shallow copy duplicates the first layer of properties.
+If a property is a primitive, it gets copied.
+If a property is a nested object or array, only the memory pointer is copied.
+
+Common Ways to Shallow Copy:
+-Spread operator: { ...obj } or [ ...arr ]
+-Object.assign({}, obj)
+-Array.prototype.slice(): arr.slice()
+-Array.from(arr)
+
+
+
+const user1 = {
+  name: "Sakib",
+  scores: [80, 90]
+};
+
+ const user2 = { ...user1 };  Shallow copy
+
+ a. Mutating top-level primitive: SAFE
+user2.name = "Alok";
+console.log(user1.name);  "Sakib" (untouched)
+
+ b. Mutating nested array/object: AFFECTS BOTH!
+user2.scores.push(100);
+console.log(user1.scores);  [ 80, 90, 100 ]  (corrupted the original!)
+
+
+
+2. Deep Copy ****
+
+A deep copy creates an entirely independent duplicate
+of the original object along with
+all nested objects, arrays, and properties at every level.
+Nothing is shared in memory. Changes to the copy will never touch the original.
+
+
+How to Deep Copy in Modern JS:
+
+Method A: structuredClone() (Best & Recommended)
+Built into modern browsers and Node.js (v17+).
+
+const user1 = {
+  name: "Sakib",
+  scores: [80, 90],
+  joined: new Date()
+};
+
+const user2 = structuredClone(user1); // Deep copy!
+
+user2.scores.push(100);
+console.log(user1.scores); // [ 80, 90 ] (original is safe!)
+console.log(user2.scores); // [ 80, 90, 100 ]
+
+- Handles nested objects & arrays
+- Preserves Date, Map, Set, RegExp
+- Does not copy functions or DOM nodes
+
+
+
+Method B: JSON.parse(JSON.stringify(obj)) (The Classic Hack)
+Used widely before structuredClone existed.
+
+const deepCopy = JSON.parse(JSON.stringify(user1));
+
+Gotchas:**
+
+-Converts Date objects into plain strings.
+-Drops undefined, Symbol, and functions completely.
+-Throws an error on circular references (obj.self = obj).
+
+
+
+
+Method C: External Library (lodash.cloneDeep)
+Standard in large enterprise codebases:
+
+import cloneDeep from 'lodash/cloneDeep';
+const deepCopy = cloneDeep(user1);
+
+
+*/
 
 
 
@@ -172,7 +302,10 @@ const course={
     practiceprobs: 33
 }
 
-const {coursename,duration:time} = course
+const {coursename,duration:time} = course  // duration is renamed to 'time'.
+//The syntax is keyInObject: newVariableName.
+//  The property name before the colon (duration) is what to look for;
+//  the identifier after (time) is the new variable that gets created.
 
 console.log(coursename)
 //console.log(name)
