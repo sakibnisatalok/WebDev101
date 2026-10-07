@@ -84,6 +84,20 @@ all there are true
 let value = undefined ?? 33 ?? 400
 //takes the left most value after null or undefined. **
 
+/*
+
+--- ****
+|| checks for any falsy value (false, 0, "", NaN, null, undefined).
+?? ONLY checks for null and undefined.
+---
+
+--- Use '??' whenever you want a fallback default value, 
+but still want to allow 0, false, or "" (empty string) as
+valid data.
+
+
+*/
+
 console.log(value)
 
 

@@ -23,7 +23,8 @@ do {
 
 
 
-// Higher-order array loops (or higher-order array methods) are built-in functions that iterate over arrays and accept another function (a callback) as an argument to handle the logic.
+// Higher-order array loops (or higher-order array methods) are built-in functions
+//  that iterate over arrays and accept another function (a callback) as an argument to handle the logic.
 
 
 

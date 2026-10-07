@@ -1,3 +1,5 @@
+//"use strict";
+// Everything below runs in strict mode
 
 
 function addnum(num1 , num2){
@@ -223,6 +225,7 @@ user.welcomeMessage()
 
 
 
+
 // arrow functions ::::
 
 function printt(){
@@ -234,7 +237,16 @@ function printt(){
 printt() //console.log(typeof printt); "function". 
 // Under the hood in JavaScript’s specification, functions are
 // actually Objects (often termed “callable objects” or Function Objects).
-//They inherit from "Function.prototype" which inherits from "Object.prototype".*****
+//They inherit from "Function.prototype" which
+//  inherits from "Object.prototype".
+// so JavaScript gives them a
+//  special typeof value of "function" simply
+//  because they are callable using parentheses ().*****
+
+
+
+
+
 
 /*  ******
 1. Why does console.log(this) print that weird global collection? :::
@@ -261,7 +273,7 @@ the global object, which does not exist shows undefined.**
 
 
 
-2. Why is the this keyword used in a function? :::
+3. Why is the this keyword used in a function? :::
 
 The purpose of "this" is ""context-sharing"": it allows a
 function to refer to the object that is
@@ -308,12 +320,77 @@ function like printt(), you almost never need this.
 
 
 const y = () => {
-    let varr = "js user"
-    console.log(this.varr)// prints undefined**
-    console.log(this)//returns empty parenthesis**
+  let varr = "js user"
+  console.log(this.varr)// prints undefined**
+  console.log(this)//returns empty parenthesis.why?111 **
 }
 
+/* x 111 -->
+
+Reason 1: Arrow Functions Do Not Have Their Own "this" :::
+
+Unlike a regular function() {}, arrow functions
+do not define their own this binding.
+Instead, an arrow function uses lexical scoping
+for this: it captures whatever this represents
+in the surrounding (enclosing) scope where the arrow
+function was defined.**
+
+Reason 2: In Node.js, the Top-Level "this" is module.exports ({}) :::
+
+When you run a file in Node.js, Node wraps your
+entire file inside a hidden CommonJS module function before
+executing it:
+
+What Node.js secretly runs under the hood:
+
+(function (exports, require, module, __filename, __dirname) {
+    // YOUR CODE GOES HERE:
+    const y = () => {
+        console.log(this);
+    };
+    y();
+});
+Inside that wrapper, Node sets this to point to
+exports (which is shorthand for module.exports), which
+starts out as an empty object: {}.
+
+
+
+
+
+// 1. Regular Function:
+function regular() {
+    console.log(this); // Node's 'global' object (massive collection)
+}
+regular();
+
+// 2. Arrow Function:
+const arrow = () => {
+    console.log(this); // Top-level module.exports ({})
+};
+arrow();
+
+---In regular(): It wasn’t called by an object, so a
+regular function defaults this to the runtime environment (global).
+---In arrow(): It doesn’t bind a new this. It 
+looks outside at the top-level scope of the file,
+where Node.js sets this = module.exports = {}.
+---If you run that exact same arrow function
+in a Browser’s console, it will print the Window object, because
+in browsers the top-level scope is window. ******
+
+
+
+
+
+*/
 y()
+
+
+
+
+
 
 // const add2= (num1 ,num2) => {
 //     return num1 + num2
@@ -533,6 +610,129 @@ misc : function and eval execution context. *****
 
 
 
+
+
+/*
+
+ 'strict mode' lore :::
+
+--- What Exactly is Strict Mode? :
+Introduced in ECMAScript 5 (ES5), Strict Mode ("use strict";) is
+an opt-in restricted variant of JavaScript that:
+Turns silent bugs into loud errors (throws exceptions instead of failing silently).
+Prevents accidental pollution of the global scope.
+Disables confusing or poorly-designed
+legacy JS features (like with statements and octal literals).
+Enables engine optimizations
+by helping V8 / SpiderMonkey run your code faster.
+You turn it on by placing the string "use strict";
+at the top of a file or function
+
+
+--- example :
+
+// Non-strict:
+function test() {
+  console.log(this); // logs the massive global/window object!
+}
+test();
+
+// Strict:
+"use strict";
+function testStrict() {
+  console.log(this); // undefined
+}
+testStrict();
+
+1. In a Standalone Regular Function :::
+
+// Non-strict:
+function test() {
+  console.log(this); // logs the massive global/window object!
+}
+test();
+
+// Strict:
+"use strict";
+function testStrict() {
+  console.log(this); // undefined ***
+}
+testStrict();
+
+
+
+Why the difference?
+In early JS, falling back
+to window or global was a dangerous design flaw. 
+If you accidentally assigned this.username = "Sakib", you just
+mutated a global variable without realizing it. Strict mode
+sets this to undefined, so this.username = "Sakib" immediately
+crashes with:
+TypeError: Cannot set properties of undefined
+
+This forces you to catch the bug immediately.
+
+
+
+2. Preventing Accidental Global Variables :::
+Remember the d = 222 from your file earlier?
+// Non-Strict Mode (Sloppy):
+d = 222; 
+console.log(d); // 222 (silently attaches to globalThis.d!)
+
+// Strict Mode:
+"use strict";
+d = 222; 
+// ❌ ReferenceError: d is not defined
+Strict mode makes it impossible to accidentally
+create global variables by forgetting let, const, or var. ****
+
+
+
+
+---
+ When is Strict Mode Enabled by Default? :
+
+We often don’t even need to type "use strict"; today because
+modern JS turns it on automatically in two major contexts:
+
+ES Modules (import / export):
+
+-In modern browsers: <script type="module">
+-In Node.js: .mjs files or "type": "module" in package.json
+-In frameworks: React, Vue, Next.js, Vite 
+Always runs in strict mode automatically.
+
+JavaScript Classes (class):
+The entire body of any class executes in strict mode by default.
+---
+
+sum-up :::
+
+"use strict";
+
+- 1. No undeclared variables
+x = 10;   -->    ReferenceError
+
+- 2. 'this' in plain functions is undefined
+function f() { return this; }
+console.log(f()); --> undefined (not global/window!)
+
+- 3. No duplicate parameter names
+function sum(a, a, c) {} --> SyntaxError: Duplicate parameter name
+
+- 4. Cannot delete plain variables
+let y = 5;
+delete y; -->  SyntaxError: Delete of an unqualified identifier
+
+- 5. Silent assignment failures become errors
+NaN = 0;  -->  TypeError: Cannot assign to read only property 'NaN'
+
+
+
+*/
+
+// js has two environments : node.js and browser .
 
 
 
