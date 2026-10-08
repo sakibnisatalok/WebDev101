@@ -1,5 +1,10 @@
 
 
+// Promise analogy :: A Promise is a JavaScript object, but it represents a
+// value you’ll get later. Think of a Promise as an order 
+// receipt and the array as the food: having the receipt doesn’t mean
+// you have the food yet. await waits for the Promise and gives you its successful value.
+
 
 // https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API   :::  important documentation. A must-read. !!!!
 // Give a read on fetch() specifications.**
@@ -24,6 +29,7 @@
 
 
 
+
 const promise = new Promise(function (resolve, reject) {
   // do async tasks.
   // Db calls, cryptographic works, network calls.
@@ -34,7 +40,7 @@ const promise = new Promise(function (resolve, reject) {
   }, 1000);
 });
 
-// .then() maps directly to "resolve" 
+// .then() maps directly to "resolve"
 // .catch() maps directly to "resolve"
 
 promise.then(function () {
@@ -55,7 +61,7 @@ new Promise(function (resolve,reject) {
   console.log("Async two consumed");
 })
 
-// resolve connects async operation in promise() to .then()  segment. 
+// resolve connects async operation in promise() to .then()  segment.
 
 
 
@@ -95,8 +101,8 @@ const promisefour = new Promise(function (resolve, reject) {
 // const userName = promisefour.then((user) => {
 //   console.log(user);
 //   return user.name;
-// }) 
-// we can't store promise.then()'s return value to a const 
+// })
+// we can't store promise.then()'s return value to a const
 // for further use. we user '.then()' again to capture
 // the return value. ***
 
@@ -147,10 +153,15 @@ async function consumePromise() {
   }
   catch (error) {
     console.log(error)
-    
+
   }
-}// async keyword basically enables await
+}
+// async keyword basically enables await
 // keyword inside the function.
+
+
+// async allows us to use await inside a function. It also means calling
+// the function always returns a Promise.****
 
 
 consumePromise(); // assync function essentially means
@@ -166,18 +177,44 @@ consumePromise(); // assync function essentially means
 
 
 async function fetchAllUsers() {
+  
   const url = 'https://jsonplaceholder.typicode.com/users'
   const res = await fetch(url);
+  
+  if (!res.ok) {
+    throw new Error(`HTTP error: ${res.status}`);
+  } // important for handling https errors. **
+  
   //console.log(res) if i write console here, data gets
   //printed. but not after "res.json()" because of
   //time issue. we have to use await here.
+  // 
   const data = await res.json() ;
   console.log(data)
 }
 
+// res   : Response object: status, headers, methods for reading the body.
+// data  : The actual users array.
+
+
 //fetchAllUsers();
 
 
+
+async function showFirstUser() {
+  try {
+    const users = await fetchAllUsers(); // users/data here is a "Promise" unlike data in fetchAllUsers(), where
+   // its an array of objects.
+    console.log(users[0].name);
+  } catch (error) {
+    console.log('Could not load users:', error);
+  }
+}
+
+// showFirstUser();
+
+
+// doing the same task using fetch() and .then()
 fetch('https://jsonplaceholder.typicode.com/users')
 .then((response) => {
     return response.json();
@@ -193,7 +230,8 @@ fetch('https://jsonplaceholder.typicode.com/users')
 
 
 
-// if we focus we can see that all fetch() content are getting executed before other async operations.****
+// if we focus we can see that all fetch() contents are getting executed
+// before other async operations.**** bcoz of high priority queue.**
 
 
 
@@ -204,14 +242,14 @@ fetch('https://jsonplaceholder.typicode.com/users')
                             res = fetch('sth')
                               /       \
                              /         \
-               data : (a) or (b)   
+               data : (a) or (b)
                (a)onFulfilled[]            web browser/node
-               (b)onRejection[]                  | 
+               (b)onRejection[]                  |
                                                  |
                                               network req()
                                                /   \
                                               /     \
-                                    (successful)    (failed.Couldn't send the req)  
+                                    (successful)    (failed.Couldn't send the req)
 
 
 # successful goes to 'onFulfilled[]'. If server sends errors, they will also go into 'onFulfilled[]'. ****
@@ -225,44 +263,51 @@ fetch('https://jsonplaceholder.typicode.com/users')
 */
 
 
-// js engine or js technically doesnt have in-built asynchronous feature. It's the different runtimes that help js to achieve it.
+// js engine or js technically doesnt have in-built
+// asynchronous feature. It's the different runtimes that help js to achieve it.
 
 
 
 
 
+// all about Promise :::
+
+/*
+
+In JavaScript, a Promise is an object that holds the eventual outcome
+of an operation: a value if it succeeds, or a reason if it fails.
+
+The problem it solves is simple: a function can finish before its
+result is ready. A network request might take a second, but JavaScript needs
+to keep handling clicks and running other code meanwhile. The function returns
+a promise immediately; your code describes what should happen when the result arrives.
 
 
+Promises give asynchronous operations a standard way to connect together, including
+passing results forward and handling failures. Promise constructor documentation
+Underneath, think of a promise as a small state machine.
+
+Conceptually, the engine stores:
+- State: pending, fulfilled, or rejected.
+- Result: the fulfillment value or rejection reason.
+- Handlers: the callbacks registered through .then() and .catch().
 
 
+1. new Promise(executor) creates a pending promise and calls the executor
+immediately, giving it resolve and reject functions.
+
+2. Calling .then(callback) registers a handler. If the promise is
+pending, the engine keeps that handler until the outcome is ready.
+
+3. resolve(fulfilled value ) fulfills the promise with value; reject(error) rejects
+it. Once settled, its state and result cannot change.
+
+4. The engine schedules the appropriate handlers as microtasks. They run after
+the current synchronous code finishes. If you attach a handler after settlement, it is
+still scheduled with the stored result.
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+*/
 
 
 
