@@ -2,6 +2,28 @@
 // Everything below runs in strict mode
 
 
+
+
+
+/*
+
+Function declaration  	function add(a, b) { return a + b; }
+Arrow function         	const add = (a, b) => a + b;
+Single argument arrow	  const sq = x => x * x;
+No arguments  arrow	    const now = () => Date.now();
+Default parameter	      function f(x = 0) { … }
+Rest parameters	        function f(...args) { … }
+Immediately invoked (IIFE)	    (() => { … })();
+
+
+*/
+
+
+
+
+
+
+
 function addnum(num1 , num2){
     return num1+num2
 }
