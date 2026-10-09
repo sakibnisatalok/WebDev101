@@ -1,3 +1,5 @@
+
+
 //"use strict";
 // Everything below runs in strict mode
 
@@ -19,6 +21,46 @@ Immediately invoked (IIFE)	    (() => { … })();
 */
 
 
+
+
+/*
+
+In JavaScript, function parameters are implicitly declared variables created
+automatically in the function's scope whenever the function is
+called. Including let, const, or var inside the parameter signature is a syntax error because
+parameter names already act as local declarations.****
+
+
+-- Parameters are already declarations:
+
+When a function executes, JavaScript creates a
+""parameter environment (a local scope)""  and assigns the passed arguments
+to those parameter names. Adding keywords like let or const would be syntactically redundant.
+
+-- Primitives vs. Object References:
+
+-Primitives (numbers, strings, booleans) are passed by value. Reassigning
+a parameter variable inside a function doesn't affect the caller's variable anyway.
+
+-Objects and Arrays are passed by reference value. Even if JS allowed const
+in parameters to prevent reassigning the parameter name, const in JS does not
+make objects immutable—you could still mutate its properties (e.g., param.key = 'value').****
+
+-- Syntax Simplicity:
+
+Keeping declaration keywords out of parameter lists keeps signatures concise and uncluttered.
+
+
+this is enforcing const inside a function :::
+
+function calculateTotal(rawPrice) {
+  const price = rawPrice; // Prevents reassignment inside this scope
+  
+  // price = 100; returns error for reassignment.
+  return price * 1.1;
+}
+
+*/
 
 
 

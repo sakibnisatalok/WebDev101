@@ -1,5 +1,8 @@
 
 
+// fetch() was part of a bluebird library . then it was added to js.
+
+
 // Promise analogy :: A Promise is a JavaScript object, but it represents a
 // value you’ll get later. Think of a Promise as an order 
 // receipt and the array as the food: having the receipt doesn’t mean
