@@ -1,4 +1,18 @@
 
+## file segment print ::
+
+ use this command to execute specific segment of a js file using node.
+```
+ sed -n '74,82p' filename.js | node
+```
+range is inclusive : [74,82] 
+p : denotes print
+
+
+<br>
+<br>
+<br>
+
 
 ## Lexical vs Functional vs Block scope :::
 
@@ -171,3 +185,10 @@ Call Stack
 
 <br>
 <br>    
+
+
+## fake data sites :::
+
+- https://jsonplaceholder.typicode.com
+- https://fakerjs.dev/
+- https://generatedata.com/

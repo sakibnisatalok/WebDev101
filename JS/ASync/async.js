@@ -6,7 +6,7 @@
 // execution finishes, it's then got added to the normal js call stack.
 
 // fetch() api uses 'Promise' which is a high 'priority queue' , 
-// unlinke normal 'task queue' that accomodates executed async functions.
+// unlike normal 'task queue' that accomodates executed async functions.
 
 
 // web api : settimeout(), setInterval(), fetch(), DOM api. these are found in browser environment, not in node env.

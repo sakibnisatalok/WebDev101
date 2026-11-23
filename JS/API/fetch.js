@@ -4,7 +4,7 @@
 
 
 // Promise analogy :: A Promise is a JavaScript object, but it represents a
-// value you’ll get later. Think of a Promise as an order 
+// value you’ll get later. Think of a Promise as an order
 // receipt and the array as the food: having the receipt doesn’t mean
 // you have the food yet. await waits for the Promise and gives you its successful value.
 
@@ -44,7 +44,7 @@ const promise = new Promise(function (resolve, reject) {
 });
 
 // .then() maps directly to "resolve"
-// .catch() maps directly to "resolve"
+// .catch() maps directly to "reject"
 
 promise.then(function () {
   console.log('Promised is consumed')
@@ -166,7 +166,6 @@ async function consumePromise() {
 // async allows us to use await inside a function. It also means calling
 // the function always returns a Promise.****
 
-
 consumePromise(); // assync function essentially means
 // we have some async response inside the function.
 
@@ -175,46 +174,133 @@ consumePromise(); // assync function essentially means
 
 
 
-
-
-
-
 async function fetchAllUsers() {
-  
+
   const url = 'https://jsonplaceholder.typicode.com/users'
   const res = await fetch(url);
-  
+
   if (!res.ok) {
     throw new Error(`HTTP error: ${res.status}`);
   } // important for handling https errors. **
-  
-  //console.log(res) if i write console here, data gets
+
+  //console.log(res) if i write console here, "response object(status: 200, ok: true, headers, and body: ReadableStream)" gets
   //printed. but not after "res.json()" because of
   //time issue. we have to use await here.
-  // 
-  const data = await res.json() ;
-  console.log(data)
+
+
+  // fetch() resolves once headers arrive; the body is "still streaming".
+  // res.json() reads + parses the body asynchronously and returns a Promise,
+  // so we must await it to get the actual data. ***
+
+
+  const data = await res.json(); // This has to read the entire body stream until it finishes, then parse the text as JSON. Since this is also async, it returns a Promise instead of the actual data.
+  /*
+
+  const data = await res.json(); // res.json() returns a Promise (body streams + parses async);
+                                 // await unwraps it, so data = parsed JS array of user objects. ******
+
+
+  */
+
+
+  
+  console.log(data);
+
+  return data;
+
+
+
+
+  
+  /* 
+
+  const data = res.json();        // ❌ data = Promise { <pending> }, the body isn't fully read yet
+  const data = await res.json();  // ✅ waits for the body to download and parse, so data = the users array. ****
+  
+  */
 }
 
 // res   : Response object: status, headers, methods for reading the body.
 // data  : The actual users array.
 
 
-//fetchAllUsers();
+fetchAllUsers();
+
+
+/*
+
+all about fetch() :::
+
+fetch() builds the new Promise(executor) for you, and async/await is shorter syntax for .then() and .catch().
+
+
+1. fetch() calls resolve() and reject() for us :-
+
+A simplified model of what fetch() does internally:
+
+function fetch(url) {
+  return new Promise((resolve, reject) => {
+  
+    - The browser/Node runtime sends the network request...
+     when headers arrive:       resolve(responseObject);
+    - if a network failure happens: reject(new TypeError("Failed to fetch"));
+  });
+}
+
+a. resolve(res) runs whenever the server replies, even with a 404 or 500. That’s why you need the if (!res.ok) check.
+
+b. reject() runs only on network-level failures, such as being offline, a DNS error, or a CORS block.
+
+c. res.json() works the same way: it returns a promise that resolves once the body has been read and parsed.
+
+
+
+2. What await does :-
+
+await promise:
+
+a. Pauses the async function (without blocking the rest of the program).
+
+b. Waits until the promise settles.
+
+c. If it was resolved → await gives back the value, the same value .then() would receive.
+
+d. If it was rejected → await throws the reason, so you catch it with try/catch (the equivalent of .catch()).
+
+e. The rest of the function then continues as a microtask.
+
+
+
+3. An async function is itself a promise :-
+
+a. Calling it always returns a Promise.
+
+b. return value → works like resolve(value)
+
+c. throw error → works like reject(error)
+
+
+
+
+
+*/
+
+
+
 
 
 
 async function showFirstUser() {
   try {
-    const users = await fetchAllUsers(); // users/data here is a "Promise" unlike data in fetchAllUsers(), where
-   // its an array of objects.
+    const users = await fetchAllUsers(); // users here is not a "Promise" like data in fetchAllUsers(), where it's an array of objects. 'await' waits for that 'Promise' to settle, then unwraps it and gives back the resolved value to (here, users.). Here the returned value of fetchAllUsers() is a Promise. *****
     console.log(users[0].name);
   } catch (error) {
     console.log('Could not load users:', error);
   }
 }
 
-// showFirstUser();
+showFirstUser();
+
 
 
 // doing the same task using fetch() and .then()
@@ -272,10 +358,10 @@ fetch('https://jsonplaceholder.typicode.com/users')
 
 
 
-
-// all about Promise :::
-
 /*
+
+ all about 'new Promise()' :::
+
 
 In JavaScript, a Promise is an object that holds the eventual outcome
 of an operation: a value if it succeeds, or a reason if it fails.
@@ -302,15 +388,76 @@ immediately, giving it resolve and reject functions.
 2. Calling .then(callback) registers a handler. If the promise is
 pending, the engine keeps that handler until the outcome is ready.
 
-3. resolve(fulfilled value ) fulfills the promise with value; reject(error) rejects
+3. resolve(fulfilled value ) fulfills the promise with value; reject(error) declines.
 it. Once settled, its state and result cannot change.
 
 4. The engine schedules the appropriate handlers as microtasks. They run after
 the current synchronous code finishes. If you attach a handler after settlement, it is
 still scheduled with the stored result.
 
+5. If you never call resolve() or reject(), the executor doesn’t send any state at all. The promise just stays pending forever. .then() and .catch() do get registered, but they wait forever because nothing ever triggers them.****
+
+example : -----
+
+const p = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    console.log("task done"); // still runs, the executor code itself executes
+  }, 1000);
+});
+
+p.then(() => console.log("then"));   // never runs
+p.catch(() => console.log("catch")); // never runs
+
+-----
+
+Exception: a synchronous throw inside the executor auto-rejects the promise, so .catch() does run:
+
+new Promise(() => {
+  throw new Error("oops"); // promise becomes rejected automatically
+}).catch(err => console.log(err.message)); // works properly.
+
+-----
+
+This does not apply to a throw inside an async callback such as setTimeout. That error happens later, outside the executor, so it becomes an uncaught error and the promise stays pending:
+
+new Promise(() => {
+  setTimeout(() => { throw new Error("oops"); }, 1000); //uncaught, .catch() won't run.
+}).catch(err => console.log(err));
+
+
+Also, returning a value from the executor does nothing. Only resolve() passes a value to .then().
+So inside async callbacks, the only way to settle a promise is to call resolve() or reject() yourself. ****
+
+-----
+
+ setTimeout() is an async function and could be put inside the executor.**
 
 */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

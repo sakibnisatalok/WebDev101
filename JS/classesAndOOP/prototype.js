@@ -22,6 +22,7 @@ let heroPower = {
 // but now we want it for all types of objects.
 
 
+
 Object.prototype.me = function () {
   console.log(`Im in all types of objects`);
 }
@@ -99,23 +100,16 @@ Object.setPrototypeOf(teacherSupport, teacher) //  'teacherSupport' accesses all
 
 
 
-let lastUser = "whatdadawgdoing  e   "
-
-String.prototype.truelength = function () {
-  console.log(`${this}`)
-  console.log(`true length is ${this.trim().length}`)
-}
-
-lastUser.truelength(); // whatdadawgdoing__e___ \n true length is 18
-"valorantsucks ".truelength(); // valorantsucks \n true length is 13.
-
-
-
-
-
-
-
-
+// let lastUser = "whatdadawgdoing  e   "
+//
+// String.prototype.truelength = function () {
+//   console.log(`${this}`)
+//   console.log(`true length is ${this.trim().length}`)
+// }
+//
+// lastUser.truelength(); // whatdadawgdoing__e___ \n true length is 18
+// "valorantsucks ".truelength(); // valorantsucks \n true length is 13.
+//
 
 
 
