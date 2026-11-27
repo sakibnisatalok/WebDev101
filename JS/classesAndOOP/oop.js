@@ -1,5 +1,7 @@
 
 
+// reading sequence : oop.js --> prototype.js(and its pdf)
+
 // js is primarily a prototype-based  lang, and its classes are essentially
 // syntactical sugar over existing prototype-based inheritance mechanisms.
 

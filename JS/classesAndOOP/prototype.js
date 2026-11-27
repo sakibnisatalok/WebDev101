@@ -1,6 +1,9 @@
 
 
+// reading sequence : oop.js --> prototype.js(and its pdf) -->
+
 //   *** To understand this file, it requires the understadning of oop.js file. ***
+
 
 
 
@@ -182,17 +185,17 @@ All of them return true for Object.getPrototypeOf(x) === Function.prototype ::
  class Car {}                                // a class is a function too
  const bound = add.bind(null)                // bound function
  
- // built-in constructors
- Array, String, Object, Function, Number, Boolean, Date, Promise, Map
- // built-in utility functions
+ // built-in constructors :
+ Array, String, Object, Function, Number, Boolean, Date, Promise, Map.  ****
+ // built-in utility functions :
  console.log, Math.max
-
 
 
  Each of these is a function, so add.me(), Array.me() and Car.me() all work through this chain.
  Exceptions: *******
  
- - Async and generator functions have one extra step in between:
+ - Async and generator functions have one extra step in between: **
+ 
  async function af() {} ──▶ AsyncFunction.prototype ──▶ Function.prototype ──▶ ...
  function* gf() {}      ──▶ GeneratorFunction.prototype ──▶ Function.prototype ──▶ ...
  
@@ -219,7 +222,7 @@ All of them return true for Object.getPrototypeOf(x) === Function.prototype ::
 
 
 
- In the image(part 4 in prototype_chains.pdf), Object → Function.prototype means the function Object, not Object.prototype :
+ In the image(part 4 in prototype_chains.pdf), Object → Function.prototype means the function Object, not Object.prototype : **
  
  Object instanceof Function     // true: Object is a function, so its parent is Function.prototype
  
@@ -227,7 +230,7 @@ All of them return true for Object.getPrototypeOf(x) === Function.prototype ::
  
  Function.prototype.constructor === Function   // true
  
- These two links don’t form a loop. One is about the function Object, the other about the object Object.prototype. Every path still ends at Object.prototype and then null.
+ These two links don’t form a loop. One is about the function Object, the other about the object Object.prototype. Every path still ends at Object.prototype and then null.****
  
 ---
 
