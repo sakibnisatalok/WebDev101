@@ -60,7 +60,17 @@ const userA = new User("Trumpbinladen", "trump@yandex.com", "123abc");
 
 console.log(userA);
 
-// RangeError: Maximum call stack size exceeded. this issue arises due to race condition b/w constructor() and setter().X  .[ error is infinite recursion (the setter calling itself), not a race condition.] **
+/*
+
+The RangeError: Maximum call stack size exceeded is not a race condition. JavaScript runs code one step at a time, so there’s nothing racing. The error is ''infinite recursion''. It happens if the setter assigns to the same name: ******
+
+set password(value) {
+  this.password = value;   // (error) this calls set password again... and again... forever
+}
+
+Each this.password = ... calls the setter again, until the call stack runs out. The fix is what we already have: store the value under a different name (_password). So current code works because of this.*****
+
+*/
 
 console.log(userA.password);
 
@@ -69,12 +79,80 @@ userA.password = "zxcvb";
 console.log(userA.password);
 
 
+/*
+A getter is a function that runs when you read a property. A setter is a function that runs when you assign to it. From outside, they look like a normal property: you write obj.prop and obj.prop = x, with no ().
+
+How it works in getter_setter.js :
+
+const userA = new User('Trumpbinladen', 'trump@yandex.com', '123abc');
+
+- In the constructor, this.email = email does not create an email property. Because the class has set email, the setter runs instead (line 24), and it stores the value in this._email. ****
+
+- this.password = password works the same way: it calls set password, which stores the value in this._password.
+
+- console.log(userA) prints:
+
+User { username: 'Trumpbinladen', _email: 'trump@yandex.com', _password: '123abc' }
+
+You see _email and _password, not email and password. The real data lives in the underscore properties. The getters and setters live on User.prototype, not on the object itself.****
+
+- userA.password (line 45) calls get password(), which returns '123ABC' (uppercased).
+
+- userA.password = 'zxcvb' (line 47) calls the setter, which sets _password = 'zxcvb'.
+
+- userA.password (line 49) calls the getter again and returns 'ZXCVB'.
+
+
+
+
+flowchart LR : *****
+  A["userA.password = 'x'"] --> B["set password(value)"] --> C["this._password = 'x'"]
+  D["userA.password"] --> E["get password()"] --> F["returns this._password.toUpperCase()"]
+
+
+
+Important Notes   :::::
+
+-- Getter only, no setter: the property becomes read-only. Assigning to it does nothing (or throws a TypeError in strict mode, which class code always uses).
+
+-- (_password) is still public. The underscore is just a naming habit, so userA._password still works. For truly private data, use #password:
+
+class User {
+  #password;
+  set password(v) { this.#password = v; }
+  get password() { return this.#password.toUpperCase(); }
+} this is the new addition in es22+.**
+
+-- Common uses: checking values in setters (e.g. “password must be 6+ characters”), formatting values in getters, and computed values like fullName.
+
+-- Uppercasing a password in a getter is fine for practice, but in a real app you would never return or store a password in plain text. You’d store a hash.  
+
+
+
+
+*/
+
+
+
+
+
+
+
+
+
+
 
 
 
 
 
 // using properties based ::: -----
+
+
+//[Data descriptor : Accessor descriptor] =
+//[value, writable   : get, set]
+
+
 
 function Userr(username, email, password) {
   this._username = username;
